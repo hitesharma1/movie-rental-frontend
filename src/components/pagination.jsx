@@ -10,6 +10,11 @@ const Pagination = (props) => {
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination">
+        <li style={{ cursor: "pointer" }} onClick={prev} className="page-item">
+          <a className="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
         {pages.map((page) => (
           <li
             style={{ cursor: "pointer" }}
@@ -20,6 +25,11 @@ const Pagination = (props) => {
             <a className="page-link">{page}</a>
           </li>
         ))}
+        <li style={{ cursor: "pointer" }} onClick={next} className="page-item">
+          <a className="page-link" aria-label="Previous">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
       </ul>
     </nav>
   );

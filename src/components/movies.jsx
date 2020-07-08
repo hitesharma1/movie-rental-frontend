@@ -29,6 +29,18 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
+  prevPage = () => {
+    if (this.state.currentPage === 1) return null;
+    this.setState({ currentPage: this.state.currrentPage - 1 });
+  };
+
+  nextPage = () => {
+    const { movies, currentPage, pageSize } = this.state;
+    const n = Math.ceil(movies.length / pageSize);
+    if (currentPage === n) return null;
+    this.setState({ currentPage: this.state.currentPage + 1 });
+  };
+
   render() {
     const { pageSize, currentPage, movies: allMovies } = this.state;
     const count = allMovies.length;
@@ -80,6 +92,8 @@ class Movies extends Component {
           itemsCount={count}
           pageSize={pageSize}
           currentPage={currentPage}
+          prev={this.prevPage}
+          next={this.nextPage}
         />
       </React.Fragment>
     );
