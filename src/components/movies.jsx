@@ -12,9 +12,11 @@ class Movies extends Component {
     pageSize: 4,
     currentPage: 1,
     genres: [],
+    selectedGenre: "All Genres",
   };
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
   }
 
   deleteHandler = (movie) => {
@@ -37,7 +39,7 @@ class Movies extends Component {
 
   prevPage = () => {
     if (this.state.currentPage === 1) return null;
-    this.setState({ currentPage: this.state.currrentPage - 1 });
+    this.setState({ currentPage: this.state.currentPage - 1 });
   };
 
   nextPage = () => {
@@ -48,16 +50,26 @@ class Movies extends Component {
   };
 
   genreHandler = (genre) => {
-    this.setState({ selctedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre.name, currentPage: 1 });
   };
 
   render() {
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedGenre,
+      movies: allMovies,
+    } = this.state;
     const count = allMovies.length;
 
     if (count === 0) return <p>No movies in Database :(</p>;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const filtered =
+      selectedGenre === "All Genres"
+        ? allMovies
+        : allMovies.filter((m) => m.genre.name === selectedGenre);
+
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -70,7 +82,7 @@ class Movies extends Component {
         </div>
 
         <div className="col">
-          <p>Showing {count} movies from Database</p>
+          <p>Showing {filtered.length} movies from Database</p>
           <table className="table">
             <thead>
               <tr>
@@ -108,7 +120,7 @@ class Movies extends Component {
           </table>
           <Paginate
             onPageChange={this.pageHandler}
-            itemsCount={count}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             currentPage={currentPage}
             prev={this.prevPage}
