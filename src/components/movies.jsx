@@ -5,6 +5,7 @@ import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
+import _ from "lodash";
 
 class Movies extends Component {
   state = {
@@ -13,6 +14,7 @@ class Movies extends Component {
     currentPage: 1,
     genres: [],
     selectedGenre: "All Genres",
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -54,11 +56,16 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre.name, currentPage: 1 });
   };
 
+  sortHandler = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
   render() {
     const {
       pageSize,
       currentPage,
       selectedGenre,
+      sortColumn,
       movies: allMovies,
     } = this.state;
     const count = allMovies.length;
@@ -70,7 +77,9 @@ class Movies extends Component {
         ? allMovies
         : allMovies.filter((m) => m.genre.name === selectedGenre);
 
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -88,6 +97,8 @@ class Movies extends Component {
             movies={movies}
             likeHandler={this.likeHandler}
             deleteHandler={this.deleteHandler}
+            sortHandler={this.sortHandler}
+            sortColumn={sortColumn}
           />
 
           <Paginate
