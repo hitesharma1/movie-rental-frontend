@@ -12,15 +12,14 @@ const Pagination = (props) => {
 
   return (
     <nav aria-label="Page navigation example">
-      <ul className="pagination">
-        <li style={{ cursor: "pointer" }} onClick={prev} className="page-item">
+      <ul className="clickable pagination">
+        <li onClick={prev} className="page-item">
           <a className="page-link" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
         {pages.map((page) => (
           <li
-            style={{ cursor: "pointer" }}
             key={page}
             onClick={() => onPageChange(page)}
             className={page === currentPage ? "page-item active" : "page-item"}
@@ -28,7 +27,7 @@ const Pagination = (props) => {
             <a className="page-link">{page}</a>
           </li>
         ))}
-        <li style={{ cursor: "pointer" }} onClick={next} className="page-item">
+        <li onClick={next} className="page-item">
           <a className="page-link" aria-label="Previous">
             <span aria-hidden="true">&raquo;</span>
           </a>

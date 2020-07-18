@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import Table from "./common/table";
 import Like from "./common/like";
-import TableHeader from "./common/tableHeader";
 
 class MoviesTable extends Component {
   columns = [
@@ -8,51 +8,38 @@ class MoviesTable extends Component {
     { path: "genre.name", label: "Genre" },
     { path: "inStock", label: "Stock" },
     { path: "dailyRent", label: "Rate" },
-    { key: "like" },
-    { key: "delete" },
+    {
+      key: "like",
+      content: (movie) => (
+        <Like
+          onClick={() => this.props.likeHandler(movie)}
+          liked={movie.liked}
+        ></Like>
+      ),
+    },
+    {
+      key: "delete",
+      content: (movie) => (
+        <button
+          onClick={() => this.props.deleteHandler(movie)}
+          className="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      ),
+    },
   ];
 
   render() {
-    const {
-      movies,
-      deleteHandler,
-      likeHandler,
-      sortHandler,
-      sortColumn,
-    } = this.props;
+    const { movies, sortHandler, sortColumn } = this.props;
 
     return (
-      <table className="table">
-        <TableHeader
-          columns={this.columns}
-          sortHandler={sortHandler}
-          sortColumn={sortColumn}
-        />
-        <tbody>
-          {movies.map((movie) => (
-            <tr key={movie._id}>
-              <td>{movie.title}</td>
-              <td>{movie.genre.name}</td>
-              <td>{movie.inStock}</td>
-              <td>{movie.dailyRent}</td>
-              <td>
-                <Like
-                  onClick={() => likeHandler(movie)}
-                  liked={movie.liked}
-                ></Like>
-              </td>
-              <td>
-                <button
-                  onClick={() => deleteHandler(movie)}
-                  className="btn btn-danger btn-sm"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        columns={this.columns}
+        sortHandler={sortHandler}
+        sortColumn={sortColumn}
+        data={movies}
+      />
     );
   }
 }
