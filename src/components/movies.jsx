@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
-import Paginate from "./pagination";
+import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
@@ -92,7 +92,7 @@ class Movies extends Component {
         </div>
 
         <div className="col">
-          <p>Showing {filtered.length} movies from Database</p>
+          <p>Listing {filtered.length} movies</p>
           <MoviesTable
             movies={movies}
             likeHandler={this.likeHandler}
@@ -100,8 +100,8 @@ class Movies extends Component {
             sortHandler={this.sortHandler}
             sortColumn={sortColumn}
           />
-
-          <Paginate
+          <br />
+          <Pagination
             onPageChange={this.pageHandler}
             itemsCount={filtered.length}
             pageSize={pageSize}
