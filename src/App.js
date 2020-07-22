@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
+import Navbar from "./components/navbar";
 import Movies from "./components/movies";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
@@ -9,6 +10,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <Navbar />
         <Switch>
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
