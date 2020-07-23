@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import Movies from "./components/movies";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
+import NotFound from "./components/notFound";
 import "./App.css";
 
 class App extends Component {
@@ -15,6 +16,9 @@ class App extends Component {
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />
+          <Route path="/not-found" component={NotFound} />
+          <Redirect from="/" exact to="/movies" />
+          <Redirect to="/not-found" />
         </Switch>
       </React.Fragment>
     );
