@@ -7,6 +7,7 @@ class LoginForm extends Component {
     account: { username: "", password: "" },
     errors: {},
   };
+
   schema = {
     username: Joi.string().required().label("Username"),
     password: Joi.string().required().label("Password"),
@@ -21,6 +22,13 @@ class LoginForm extends Component {
     return errors;
   };
 
+  validateProperty = ({ id, value }) => {
+    const obj = { [id]: value };
+    const schema = { [id]: this.schema[id] };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
+  };
+
   submitHandler = (e) => {
     e.preventDefault();
 
@@ -30,9 +38,14 @@ class LoginForm extends Component {
   };
 
   changeHandler = ({ currentTarget: input }) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(input);
+    if (errorMessage) errors[input.id] = errorMessage;
+    else delete errors[input.id];
+
     const account = { ...this.state.account };
     account[input.id] = input.value;
-    this.setState({ account });
+    this.setState({ account, errors });
   };
 
   render() {
