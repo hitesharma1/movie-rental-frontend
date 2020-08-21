@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
+import Select from "./select"
 
 class Form extends Component {
   state = {
@@ -58,6 +59,21 @@ class Form extends Component {
         error={errors[id]}
       />
     );
+  }
+
+  renderSelect(id, label, options) {
+    const { data, errors } = this.state;
+
+    return (
+      <Select
+        id={id}
+        value={data[id]}
+        label={label}
+        options={options}
+        onChange={this.changeHandler}
+        error={errors[id]}
+      />
+    )
   }
 
   renderButton(label) {

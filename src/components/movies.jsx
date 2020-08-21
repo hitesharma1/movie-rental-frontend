@@ -5,6 +5,7 @@ import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 
 class Movies extends Component {
@@ -89,6 +90,11 @@ class Movies extends Component {
             selctedItem={this.state.selctedGenre}
             onItemSelect={this.genreHandler}
           />
+          <Link to={"/movies/new"}
+            className="btn btn-primary"
+            style={{ marginTop: 20, marginBottom: 20 }}>
+            Add Movie
+          </Link>
         </div>
 
         <div className="col">
