@@ -1,10 +1,12 @@
 import http from "./httpService";
-const url = "http://localhost:8000/api/movies";
+import { apiUrl } from '../config.json';
+
+const apiEndpoint = apiUrl + "/movies";
 
 export function getMovies() {
-  return http.get(url);
+  return http.get(apiEndpoint);
 }
 
 export function deleteMovie(id) {
-  http.delete(url + "/" + id);
+  return http.delete(apiEndpoint + "/" + id);
 }

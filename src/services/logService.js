@@ -1,6 +1,5 @@
-const { func } = require("prop-types");
 
-function init() {}
+function init() { }
 
 function log(error) {
   console.error(error);

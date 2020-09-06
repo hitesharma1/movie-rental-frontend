@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { toast } from 'react-toastify';
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import { getMovies, deleteMovie } from "../services/movieService";
@@ -7,7 +8,7 @@ import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import SearchBar from "./searchBar";
 import { Link } from "react-router-dom";
-import _, { toSafeInteger } from "lodash";
+import _ from "lodash";
 
 class Movies extends Component {
   state = {
@@ -31,12 +32,12 @@ class Movies extends Component {
   deleteHandler = async (movie) => {
     const totalMovies = this.state.movies;
     const movies = totalMovies.filter((m) => m._id !== movie._id);
-    this.setState({ movies });
+    this.setState({ movies }); //opmistic update
     try {
       await deleteMovie(movie);
     } catch (ex) {
       if (ex.responce && ex.responce.status === 404) console.log("x");
-      toSafeInteger.error("Selected movie already deleted");
+      toast.error("Selected movie already deleted");
 
       this.setState({ movies: totalMovies });
     }
@@ -99,7 +100,7 @@ class Movies extends Component {
     } else if (selectedGenre === "All Genres") {
       filtered = allMovies;
     } else {
-      allMovies.filter((m) => m.genre.name === selectedGenre);
+      filtered = allMovies.filter((m) => m.genre.name === selectedGenre);
     }
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
