@@ -7,6 +7,20 @@ export function getMovies() {
   return http.get(apiEndpoint);
 }
 
-export function deleteMovie(id) {
-  return http.delete(apiEndpoint + "/" + id);
+export function getMovie(movieId) {
+  return http.get(apiEndpoint + '/' + movieId);
+}
+
+export function deleteMovie(movieId) {
+  return http.delete(apiEndpoint + "/" + movieId);
+}
+
+export function saveMovie(movie) {
+  if (movie._id) {  //to edit a movie
+    const body = { ...movie };
+    delete body._id;
+    return http.put(apiEndpoint + '/' + movie._id, body);
+  }
+
+  return http.post(apiEndpoint, movie);  //to add new movie
 }
